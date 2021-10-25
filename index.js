@@ -40,7 +40,7 @@ function toBuffer (buffer) {
 }
 
 function toString (buffer, encoding, start, end) {
-  return buffer.toString(encoding, start, end)
+  return toBuffer(buffer).toString(encoding, start, end)
 }
 
 function write (buffer, string, offset, length, encoding) {
