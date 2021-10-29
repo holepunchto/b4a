@@ -17,6 +17,10 @@ function _codecFor (encoding) {
   }
 }
 
+function isBuffer (value) {
+  return value instanceof Uint8Array
+}
+
 function alloc (size) {
   return new Uint8Array(size)
 }
@@ -194,6 +198,7 @@ function write (buffer, string, offset, length, encoding) {
 }
 
 module.exports = {
+  isBuffer,
   alloc,
   allocUnsafe,
   allocUnsafeSlow,

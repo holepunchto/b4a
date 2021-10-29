@@ -1,3 +1,7 @@
+function isBuffer (value) {
+  return Buffer.isBuffer(value) || value instanceof Uint8Array
+}
+
 function alloc (size) {
   return Buffer.alloc(size)
 }
@@ -48,6 +52,7 @@ function write (buffer, string, offset, length, encoding) {
 }
 
 module.exports = {
+  isBuffer,
   alloc,
   allocUnsafe,
   allocUnsafeSlow,
