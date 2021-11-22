@@ -33,6 +33,12 @@ test('compare', (t) => {
       t.is(b.compare(b.alloc(i), b.alloc(i)), 0, `length ${i}`)
     }
   })
+
+  t.test('varying alignment', (t) => {
+    for (let i = 0; i < 10; i++) {
+      t.is(b.compare(b.alloc(i).subarray(i), b.alloc(i).subarray(i)), 0, `offset ${i}`)
+    }
+  })
 })
 
 test('concat', (t) => {
@@ -62,6 +68,12 @@ test('equals', (t) => {
   t.test('varying lengths', (t) => {
     for (let i = 0; i < 10; i++) {
       t.is(b.equals(b.alloc(i), b.alloc(i)), true, `length ${i}`)
+    }
+  })
+
+  t.test('varying alignment', (t) => {
+    for (let i = 0; i < 10; i++) {
+      t.is(b.equals(b.alloc(i).subarray(i), b.alloc(i).subarray(i)), true, `offset ${i}`)
     }
   })
 })

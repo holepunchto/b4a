@@ -3,7 +3,7 @@ const base64 = require('./lib/base64')
 const hex = require('./lib/hex')
 const utf8 = require('./lib/utf8')
 
-function _codecFor (encoding) {
+function codecFor (encoding) {
   switch (encoding) {
     case 'ascii':
       return ascii
@@ -37,25 +37,31 @@ function allocUnsafeSlow (size) {
 }
 
 function byteLength (string, encoding) {
-  return _codecFor(encoding).byteLength(string)
+  return codecFor(encoding).byteLength(string)
 }
 
 function compare (a, b) {
   if (a === b) return 0
 
   const len = Math.min(a.byteLength, b.byteLength)
-  const len32 = len >>> 2
-  const a32 = new Uint32Array(a.buffer, a.byteOffset, len32)
-  const b32 = new Uint32Array(b.buffer, b.byteOffset, len32)
 
-  let i
-  for (i = 0; i < len32; i++) {
-    if (a32[i] !== b32[i]) break
+  a = new DataView(a.buffer, a.byteOffset, a.byteLength)
+  b = new DataView(b.buffer, b.byteOffset, b.byteLength)
+
+  let i = 0
+
+  for (let n = len - (len % 4); i < n; i += 4) {
+    const x = a.getUint32(i)
+    const y = b.getUint32(i)
+    if (x < y) return -1
+    if (x > y) return 1
   }
 
-  for (let j = i << 2; j < len; j++) {
-    if (a[j] < b[j]) return -1
-    if (a[j] > b[j]) return 1
+  for (; i < len; i++) {
+    const x = a.getUint8(i)
+    const y = b.getUint8(i)
+    if (x < y) return -1
+    if (x > y) return 1
   }
 
   return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
@@ -110,16 +116,18 @@ function equals (a, b) {
   if (a.byteLength !== b.byteLength) return false
 
   const len = a.byteLength
-  const len32 = len >>> 2
-  const a32 = new Uint32Array(a.buffer, a.byteOffset, len32)
-  const b32 = new Uint32Array(b.buffer, b.byteOffset, len32)
 
-  for (let i = 0; i < len32; i++) {
-    if (a32[i] !== b32[i]) return false
+  a = new DataView(a.buffer, a.byteOffset, a.byteLength)
+  b = new DataView(b.buffer, b.byteOffset, b.byteLength)
+
+  let i = 0
+
+  for (let n = len - (len % 4); i < n; i += 4) {
+    if (a.getUint32(i) !== b.getUint32(i)) return false
   }
 
-  for (let i = len32 << 2; i < len; i++) {
-    if (a[i] !== b[i]) return false
+  for (; i < len; i++) {
+    if (a.getUint8(i) !== b.getUint8(i)) return false
   }
 
   return true
@@ -127,38 +135,38 @@ function equals (a, b) {
 
 function from (value, encodingOrOffset, length) {
   // from(string, encoding)
-  if (typeof value === 'string') return _fromString(value, encodingOrOffset)
+  if (typeof value === 'string') return fromString(value, encodingOrOffset)
 
   // from(array)
-  if (Array.isArray(value)) return _fromArray(value)
+  if (Array.isArray(value)) return fromArray(value)
 
   // from(buffer)
-  if (ArrayBuffer.isView(value)) return _fromBuffer(value)
+  if (ArrayBuffer.isView(value)) return fromBuffer(value)
 
   // from(arrayBuffer[, byteOffset[, length]])
-  return _fromArrayBuffer(value, encodingOrOffset, length)
+  return fromArrayBuffer(value, encodingOrOffset, length)
 }
 
-function _fromString (string, encoding) {
-  const codec = _codecFor(encoding)
+function fromString (string, encoding) {
+  const codec = codecFor(encoding)
   const buffer = new Uint8Array(codec.byteLength(string))
   codec.write(buffer, string, 0, buffer.byteLength)
   return buffer
 }
 
-function _fromArray (array) {
+function fromArray (array) {
   const buffer = new Uint8Array(array.length)
   buffer.set(array)
   return buffer
 }
 
-function _fromBuffer (buffer) {
+function fromBuffer (buffer) {
   const copy = new Uint8Array(buffer.byteLength)
   copy.set(buffer)
   return copy
 }
 
-function _fromArrayBuffer (arrayBuffer, byteOffset, length) {
+function fromArrayBuffer (arrayBuffer, byteOffset, length) {
   return new Uint8Array(arrayBuffer, byteOffset, length)
 }
 
@@ -176,7 +184,7 @@ function toString (buffer, encoding, start = 0, end = buffer.byteLength) {
 
   if (start !== 0 || end < len) buffer = buffer.subarray(start, end)
 
-  return _codecFor(encoding).toString(buffer)
+  return codecFor(encoding).toString(buffer)
 }
 
 function write (buffer, string, offset, length, encoding) {
@@ -195,7 +203,7 @@ function write (buffer, string, offset, length, encoding) {
     length = undefined
   }
 
-  return _codecFor(encoding).write(buffer, string, offset, length)
+  return codecFor(encoding).write(buffer, string, offset, length)
 }
 
 module.exports = {
