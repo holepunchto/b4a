@@ -96,12 +96,10 @@ function copy (source, target, targetStart = 0, start = 0, end = source.byteLeng
 
   const len = end - start
 
-  if (start !== 0 || end < len) source = source.subarray(start, end)
-
   if (source === target) {
     target.copyWithin(targetStart, start, end)
   } else {
-    target.set(source, targetStart)
+    target.set(source.subarray(start, end), targetStart)
   }
 
   return len
