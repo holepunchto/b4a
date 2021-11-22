@@ -75,3 +75,7 @@ See https://nodejs.org/api/buffer.html#buftostringencoding-start-end
 #### `b4a.write(string[, offset[, length]][, encoding])`
 
 See https://nodejs.org/api/buffer.html#bufwritestring-offset-length-encoding
+
+## License
+
+ISC
