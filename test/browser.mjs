@@ -87,3 +87,23 @@ test('fill', (t) => {
   t.alike(b.fill(b.alloc(3), 'abcd', 1, 'hex'), b.from([0, 0xab, 0xcd]))
   t.alike(b.fill(b.alloc(3), 'ab', 1, 2, 'hex'), b.from([0, 0xab, 0]))
 })
+
+test('toString', (t) => {
+  const buffer = b.from([1, 2, 3, 4])
+
+  t.test('ascii', (t) => {
+    t.is(b.toString(buffer, 'ascii'), '\x01\x02\x03\x04')
+  })
+
+  t.test('base64', (t) => {
+    t.is(b.toString(buffer, 'base64'), 'AQIDBA==')
+  })
+
+  t.test('hex', (t) => {
+    t.is(b.toString(buffer, 'hex'), '01020304')
+  })
+
+  t.test('utf8', (t) => {
+    t.is(b.toString(buffer, 'utf8'), '\x01\x02\x03\x04')
+  })
+})
