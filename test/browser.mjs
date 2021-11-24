@@ -106,4 +106,8 @@ test('toString', (t) => {
   t.test('utf8', (t) => {
     t.is(b.toString(buffer, 'utf8'), '\x01\x02\x03\x04')
   })
+
+  t.test('utf16le', (t) => {
+    t.is(b.toString(buffer, 'utf16le'), '\u0201\u0403')
+  })
 })

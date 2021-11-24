@@ -2,19 +2,25 @@ const ascii = require('./lib/ascii')
 const base64 = require('./lib/base64')
 const hex = require('./lib/hex')
 const utf8 = require('./lib/utf8')
+const utf16le = require('./lib/utf16le')
 
 function codecFor (encoding) {
   switch (encoding) {
     case 'ascii':
       return ascii
+    case 'base64':
+      return base64
     case 'hex':
       return hex
     case 'utf8':
     case 'utf-8':
     case undefined:
       return utf8
-    case 'base64':
-      return base64
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return utf16le
     default:
       throw new Error(`Unknown encoding: ${encoding}`)
   }
