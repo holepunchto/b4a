@@ -68,6 +68,18 @@ See https://nodejs.org/api/buffer.html#static-method-bufferfrombuffer
 
 See https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding
 
+#### `b4a.swap16()`
+
+See https://nodejs.org/api/buffer.html#bufswap16
+
+#### `b4a.swap32()`
+
+See https://nodejs.org/api/buffer.html#bufswap32
+
+#### `b4a.swap64()`
+
+See https://nodejs.org/api/buffer.html#bufswap64
+
 #### `b4a.toBuffer(buffer)`
 
 Convert a buffer to its canonical representation. In Node.js, the canonical representation is a `Buffer`. In the browser, the canonical reprensetation is a `Uint8Array`.

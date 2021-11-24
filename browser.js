@@ -225,6 +225,50 @@ function fromArrayBuffer (arrayBuffer, byteOffset, length) {
   return new Uint8Array(arrayBuffer, byteOffset, length)
 }
 
+function swap (buffer, n, m) {
+  const i = buffer[n]
+  buffer[n] = buffer[m]
+  buffer[m] = i
+}
+
+function swap16 (buffer) {
+  const len = buffer.byteLength
+
+  if (len % 2 !== 0) throw new RangeError('Buffer size must be a multiple of 16-bits')
+
+  for (let i = 0; i < len; i += 2) swap(buffer, i, i + 1)
+
+  return buffer
+}
+
+function swap32 (buffer) {
+  const len = buffer.byteLength
+
+  if (len % 4 !== 0) throw new RangeError('Buffer size must be a multiple of 32-bits')
+
+  for (let i = 0; i < len; i += 4) {
+    swap(buffer, i, i + 3)
+    swap(buffer, i + 1, i + 2)
+  }
+
+  return buffer
+}
+
+function swap64 (buffer) {
+  const len = buffer.byteLength
+
+  if (len % 8 !== 0) throw new RangeError('Buffer size must be a multiple of 64-bits')
+
+  for (let i = 0; i < len; i += 8) {
+    swap(buffer, i, i + 7)
+    swap(buffer, i + 1, i + 6)
+    swap(buffer, i + 2, i + 5)
+    swap(buffer, i + 3, i + 4)
+  }
+
+  return buffer
+}
+
 function toBuffer (buffer) {
   return buffer
 }
@@ -273,6 +317,9 @@ module.exports = {
   equals,
   fill,
   from,
+  swap16,
+  swap32,
+  swap64,
   toBuffer,
   toString,
   write

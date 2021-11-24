@@ -42,6 +42,18 @@ function from (value, encodingOrOffset, length) {
   return Buffer.from(value, encodingOrOffset, length)
 }
 
+function swap16 (buffer) {
+  return toBuffer(buffer).swap16()
+}
+
+function swap32 (buffer) {
+  return toBuffer(buffer).swap32()
+}
+
+function swap64 (buffer) {
+  return toBuffer(buffer).swap64()
+}
+
 function toBuffer (buffer) {
   if (Buffer.isBuffer(buffer)) return buffer
   return Buffer.from(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -67,6 +79,9 @@ module.exports = {
   equals,
   fill,
   from,
+  swap16,
+  swap32,
+  swap64,
   toBuffer,
   toString,
   write
