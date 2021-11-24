@@ -2,8 +2,8 @@ function isBuffer (value) {
   return Buffer.isBuffer(value) || value instanceof Uint8Array
 }
 
-function alloc (size) {
-  return Buffer.alloc(size)
+function alloc (size, fill, encoding) {
+  return Buffer.alloc(size, fill, encoding)
 }
 
 function allocUnsafe (size) {
@@ -34,6 +34,10 @@ function equals (a, b) {
   return toBuffer(a).equals(b)
 }
 
+function fill (buffer, value, offset, end, encoding) {
+  return toBuffer(buffer).fill(value, offset, end, encoding)
+}
+
 function from (value, encodingOrOffset, length) {
   return Buffer.from(value, encodingOrOffset, length)
 }
@@ -61,6 +65,7 @@ module.exports = {
   concat,
   copy,
   equals,
+  fill,
   from,
   toBuffer,
   toString,

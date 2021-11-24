@@ -77,3 +77,13 @@ test('equals', (t) => {
     }
   })
 })
+
+test('fill', (t) => {
+  t.alike(b.fill(b.alloc(3), 1), b.from([1, 1, 1]))
+  t.alike(b.fill(b.alloc(3), 1, 1), b.from([0, 1, 1]))
+  t.alike(b.fill(b.alloc(3), 1, 1, 2), b.from([0, 1, 0]))
+  t.alike(b.fill(b.alloc(3), 'ab'), b.from([0x61, 0x62, 0x61]))
+  t.alike(b.fill(b.alloc(3), 'abcd', 'hex'), b.from([0xab, 0xcd, 0xab]))
+  t.alike(b.fill(b.alloc(3), 'abcd', 1, 'hex'), b.from([0, 0xab, 0xcd]))
+  t.alike(b.fill(b.alloc(3), 'ab', 1, 2, 'hex'), b.from([0, 0xab, 0]))
+})

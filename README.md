@@ -16,7 +16,7 @@ See https://nodejs.org/api/buffer.html#static-method-bufferisbufferobj
 
 This will also return `true` when passed a `Uint8Array`.
 
-#### `b4a.alloc(size)`
+#### `b4a.alloc(size[, fill[, encoding]])`
 
 See https://nodejs.org/api/buffer.html#static-method-bufferallocsize-fill-encoding
 
@@ -47,6 +47,10 @@ See https://nodejs.org/api/buffer.html#bufcopytarget-targetstart-sourcestart-sou
 #### `b4a.equals(buf1, buf2)`
 
 See https://nodejs.org/api/buffer.html#bufequalsotherbuffer
+
+#### `b4a.fill(value[, offset[, end]][, encoding])`
+
+See https://nodejs.org/api/buffer.html#buffillvalue-offset-end-encoding
 
 #### `b4a.from(array)`
 

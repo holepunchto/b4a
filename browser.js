@@ -24,8 +24,10 @@ function isBuffer (value) {
   return value instanceof Uint8Array
 }
 
-function alloc (size) {
-  return new Uint8Array(size)
+function alloc (size, fill, encoding) {
+  const buffer = new Uint8Array(size)
+  if (fill !== undefined) fill(buffer, fill, 0, buffer.byteLength, encoding)
+  return buffer
 }
 
 function allocUnsafe (size) {
@@ -133,6 +135,53 @@ function equals (a, b) {
   return true
 }
 
+function fill (buffer, value, offset, end, encoding) {
+  if (typeof value === 'string') {
+    // fill(buffer, string, encoding)
+    if (typeof offset === 'string') {
+      encoding = offset
+      offset = 0
+      end = buffer.byteLength
+
+    // fill(buffer, string, offset, encoding)
+    } else if (typeof end === 'string') {
+      encoding = end
+      end = buffer.byteLength
+    }
+  } else if (typeof val === 'number') {
+    value = value & 255
+  } else if (typeof val === 'boolean') {
+    value = +value
+  }
+
+  if (offset < 0 || buffer.byteLength < offset || buffer.byteLength < end) {
+    throw new RangeError('Out of range index')
+  }
+
+  if (offset === undefined) offset = 0
+  if (end === undefined) end = buffer.byteLength
+
+  if (end <= offset) return buffer
+
+  if (!value) value = 0
+
+  if (typeof value === 'number') {
+    for (let i = offset; i < end; ++i) {
+      buffer[i] = value
+    }
+  } else {
+    value = isBuffer(value) ? value : from(value, encoding)
+
+    const len = value.byteLength
+
+    for (let i = 0; i < end - offset; ++i) {
+      buffer[i + offset] = value[i % len]
+    }
+  }
+
+  return buffer
+}
+
 function from (value, encodingOrOffset, length) {
   // from(string, encoding)
   if (typeof value === 'string') return fromString(value, encodingOrOffset)
@@ -216,6 +265,7 @@ module.exports = {
   concat,
   copy,
   equals,
+  fill,
   from,
   toBuffer,
   toString,
