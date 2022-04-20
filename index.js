@@ -2,6 +2,10 @@ function isBuffer (value) {
   return Buffer.isBuffer(value) || value instanceof Uint8Array
 }
 
+function isEncoding (encoding) {
+  return Buffer.isEncoding(encoding)
+}
+
 function alloc (size, fill, encoding) {
   return Buffer.alloc(size, fill, encoding)
 }
@@ -69,6 +73,7 @@ function write (buffer, string, offset, length, encoding) {
 
 module.exports = {
   isBuffer,
+  isEncoding,
   alloc,
   allocUnsafe,
   allocUnsafeSlow,

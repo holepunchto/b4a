@@ -30,6 +30,15 @@ function isBuffer (value) {
   return value instanceof Uint8Array
 }
 
+function isEncoding (encoding) {
+  try {
+    codecFor(encoding)
+    return true
+  } catch {
+    return false
+  }
+}
+
 function alloc (size, fill, encoding) {
   const buffer = new Uint8Array(size)
   if (fill !== undefined) fill(buffer, fill, 0, buffer.byteLength, encoding)
@@ -307,6 +316,7 @@ function write (buffer, string, offset, length, encoding) {
 
 module.exports = {
   isBuffer,
+  isEncoding,
   alloc,
   allocUnsafe,
   allocUnsafeSlow,

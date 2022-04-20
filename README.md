@@ -16,6 +16,10 @@ See https://nodejs.org/api/buffer.html#static-method-bufferisbufferobj
 
 This will also return `true` when passed a `Uint8Array`.
 
+#### `b4a.isEncoding(encoding)`
+
+See https://nodejs.org/api/buffer.html#static-method-bufferisencodingencoding
+
 #### `b4a.alloc(size[, fill[, encoding]])`
 
 See https://nodejs.org/api/buffer.html#static-method-bufferallocsize-fill-encoding
