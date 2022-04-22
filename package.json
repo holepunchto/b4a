@@ -1,6 +1,6 @@
 {
   "name": "b4a",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Bridging the gap between buffers and typed arrays",
   "main": "index.js",
   "files": [
