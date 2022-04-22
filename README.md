@@ -52,7 +52,7 @@ See https://nodejs.org/api/buffer.html#bufcopytarget-targetstart-sourcestart-sou
 
 See https://nodejs.org/api/buffer.html#bufequalsotherbuffer
 
-#### `b4a.fill(value[, offset[, end]][, encoding])`
+#### `b4a.fill(buffer, value[, offset[, end]][, encoding])`
 
 See https://nodejs.org/api/buffer.html#buffillvalue-offset-end-encoding
 
@@ -72,15 +72,27 @@ See https://nodejs.org/api/buffer.html#static-method-bufferfrombuffer
 
 See https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding
 
-#### `b4a.swap16()`
+#### `b4a.includes(buffer, value[, byteOffset][, encoding])`
+
+See https://nodejs.org/api/buffer.html#bufincludesvalue-byteoffset-encoding
+
+#### `b4a.indexOf(buffer, value[, byteOffset][, encoding])`
+
+See https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding
+
+#### `b4a.lastIndexOf(buffer, value[, byteOffset][, encoding])`
+
+See https://nodejs.org/api/buffer.html#buflastindexofvalue-byteoffset-encoding
+
+#### `b4a.swap16(buffer)`
 
 See https://nodejs.org/api/buffer.html#bufswap16
 
-#### `b4a.swap32()`
+#### `b4a.swap32(buffer)`
 
 See https://nodejs.org/api/buffer.html#bufswap32
 
-#### `b4a.swap64()`
+#### `b4a.swap64(buffer)`
 
 See https://nodejs.org/api/buffer.html#bufswap64
 
@@ -88,11 +100,11 @@ See https://nodejs.org/api/buffer.html#bufswap64
 
 Convert a buffer to its canonical representation. In Node.js, the canonical representation is a `Buffer`. In the browser, the canonical representation is a `Uint8Array`.
 
-#### `b4a.toString([encoding[, start[, end]]])`
+#### `b4a.toString(buffer, [encoding[, start[, end]]])`
 
 See https://nodejs.org/api/buffer.html#buftostringencoding-start-end
 
-#### `b4a.write(string[, offset[, length]][, encoding])`
+#### `b4a.write(buffer, string[, offset[, length]][, encoding])`
 
 See https://nodejs.org/api/buffer.html#bufwritestring-offset-length-encoding
 

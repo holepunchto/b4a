@@ -46,6 +46,18 @@ function from (value, encodingOrOffset, length) {
   return Buffer.from(value, encodingOrOffset, length)
 }
 
+function includes (buffer, value, byteOffset, encoding) {
+  return toBuffer(buffer).includes(value, byteOffset, encoding)
+}
+
+function indexOf (buffer, value, byfeOffset, encoding) {
+  return toBuffer(buffer).indexOf(value, byfeOffset, encoding)
+}
+
+function lastIndexOf (buffer, value, byteOffset, encoding) {
+  return toBuffer(buffer).lastIndexOf(value, byteOffset, encoding)
+}
+
 function swap16 (buffer) {
   return toBuffer(buffer).swap16()
 }
@@ -84,6 +96,9 @@ module.exports = {
   equals,
   fill,
   from,
+  includes,
+  indexOf,
+  lastIndexOf,
   swap16,
   swap32,
   swap64,

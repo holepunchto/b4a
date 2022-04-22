@@ -88,6 +88,48 @@ test('fill', (t) => {
   t.alike(b.fill(b.alloc(3), 'ab', 1, 2, 'hex'), b.from([0, 0xab, 0]))
 })
 
+test('indexOf', (t) => {
+  t.is(b.indexOf(b.from([1, 2, 3]), 1), 0)
+  t.is(b.indexOf(b.from([1, 2, 3]), 2), 1)
+  t.is(b.indexOf(b.from([1, 2, 3]), 3), 2)
+  t.is(b.indexOf(b.from([1, 2, 3]), 4), -1)
+
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([1])), 0)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([1, 2])), 0)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([1, 2, 3])), 0)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([2])), 1)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([2, 3])), 1)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([3])), 2)
+
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([4])), -1)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([1, 3])), -1)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([2, 1])), -1)
+  t.is(b.indexOf(b.from([1, 2, 3]), b.from([3, 2, 1])), -1)
+
+  t.is(b.indexOf(b.from([1, 2, 2, 3]), b.from([2])), 1)
+})
+
+test('lastIndexOf', (t) => {
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), 1), 0)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), 2), 1)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), 3), 2)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), 4), -1)
+
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([1])), 0)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([1, 2])), 0)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([1, 2, 3])), 0)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([2])), 1)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([2, 3])), 1)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([3])), 2)
+
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([4])), -1)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([1, 3])), -1)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([2, 1])), -1)
+  t.is(b.lastIndexOf(b.from([1, 2, 3]), b.from([3, 2, 1])), -1)
+
+  t.is(b.lastIndexOf(b.from([1, 2, 2, 3]), b.from([2])), 2)
+})
+
 test('swap16', (t) => {
   t.alike(
     b.swap16(b.from([0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8])),

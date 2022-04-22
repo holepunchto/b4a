@@ -164,7 +164,7 @@ function fill (buffer, value, offset, end, encoding) {
       end = buffer.byteLength
     }
   } else if (typeof val === 'number') {
-    value = value & 255
+    value = value & 0xff
   } else if (typeof val === 'boolean') {
     value = +value
   }
@@ -232,6 +232,86 @@ function fromBuffer (buffer) {
 
 function fromArrayBuffer (arrayBuffer, byteOffset, length) {
   return new Uint8Array(arrayBuffer, byteOffset, length)
+}
+
+function includes (buffer, value, byteOffset, encoding) {
+  return indexOf(buffer, value, byteOffset, encoding) !== -1
+}
+
+function bidirectionalIndexOf (buffer, value, byteOffset, encoding, first) {
+  if (buffer.byteLength === 0) return -1
+
+  if (typeof byteOffset === 'string') {
+    encoding = byteOffset
+    byteOffset = 0
+  } else if (byteOffset === undefined) {
+    byteOffset = first ? 0 : (buffer.length - 1)
+  } else if (byteOffset < 0) {
+    byteOffset += buffer.byteLength
+  }
+
+  if (byteOffset >= buffer.byteLength) {
+    if (first) return -1
+    else byteOffset = buffer.byteLength - 1
+  } else if (byteOffset < 0) {
+    if (first) byteOffset = 0
+    else return -1
+  }
+
+  if (typeof value === 'string') {
+    value = from(value, encoding)
+  } else if (typeof value === 'number') {
+    value = value & 0xff
+
+    if (first) {
+      return buffer.indexOf(value, byteOffset)
+    } else {
+      return buffer.lastIndexOf(value, byteOffset)
+    }
+  }
+
+  if (value.byteLength === 0) return -1
+
+  if (first) {
+    let foundIndex = -1
+
+    for (let i = byteOffset; i < buffer.byteLength; i++) {
+      if (buffer[i] === value[foundIndex === -1 ? 0 : i - foundIndex]) {
+        if (foundIndex === -1) foundIndex = i
+        if (i - foundIndex + 1 === value.byteLength) return foundIndex
+      } else {
+        if (foundIndex !== -1) i -= i - foundIndex
+        foundIndex = -1
+      }
+    }
+  } else {
+    if (byteOffset + value.byteLength > buffer.byteLength) {
+      byteOffset = buffer.byteLength - value.byteLength
+    }
+
+    for (let i = byteOffset; i >= 0; i--) {
+      let found = true
+
+      for (let j = 0; j < value.byteLength; j++) {
+        if (buffer[i + j] !== value[j]) {
+          found = false
+          break
+        }
+      }
+
+      if (found) return i
+    }
+  }
+
+  return -1
+}
+
+function indexOf (buffer, value, byteOffset, encoding) {
+  return bidirectionalIndexOf(buffer, value, byteOffset, encoding, true /* first */)
+}
+
+function lastIndexOf (buffer, value, byteOffset, encoding) {
+  return bidirectionalIndexOf(buffer, value, byteOffset, encoding, false /* last */)
 }
 
 function swap (buffer, n, m) {
@@ -327,6 +407,9 @@ module.exports = {
   equals,
   fill,
   from,
+  includes,
+  indexOf,
+  lastIndexOf,
   swap16,
   swap32,
   swap64,
