@@ -27,6 +27,9 @@ test('compare', (t) => {
   t.is(b.compare(b.from([1, 2, 3]), b.from([1, 3, 2])), -1)
   t.is(b.compare(b.from([1, 2, 3, 4]), b.from([1, 2, 3])), 1)
   t.is(b.compare(b.from([1, 2, 3]), b.from([1, 2, 3, 4])), -1)
+  t.is(b.compare(b.from([1, 2, 3, 4]), b.from([1, 2, 3, 4])), 0)
+  t.is(b.compare(b.from([1, 2, 4, 3]), b.from([1, 2, 3, 4])), 1)
+  t.is(b.compare(b.from([1, 2, 3, 4]), b.from([1, 2, 4, 3])), -1)
 
   t.test('varying lengths', (t) => {
     for (let i = 0; i < 10; i++) {

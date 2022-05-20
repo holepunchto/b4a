@@ -70,8 +70,8 @@ function compare (a, b) {
   let i = 0
 
   for (let n = len - (len % 4); i < n; i += 4) {
-    const x = a.getUint32(i, LE)
-    const y = b.getUint32(i, LE)
+    const x = a.getUint32(i)
+    const y = b.getUint32(i)
     if (x < y) return -1
     if (x > y) return 1
   }
