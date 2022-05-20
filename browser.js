@@ -4,6 +4,8 @@ const hex = require('./lib/hex')
 const utf8 = require('./lib/utf8')
 const utf16le = require('./lib/utf16le')
 
+const LE = new Uint8Array(Uint16Array.of(0xff).buffer)[0] === 0xff
+
 function codecFor (encoding) {
   switch (encoding) {
     case 'ascii':
@@ -68,8 +70,8 @@ function compare (a, b) {
   let i = 0
 
   for (let n = len - (len % 4); i < n; i += 4) {
-    const x = a.getUint32(i)
-    const y = b.getUint32(i)
+    const x = a.getUint32(i, LE)
+    const y = b.getUint32(i, LE)
     if (x < y) return -1
     if (x > y) return 1
   }
@@ -140,7 +142,7 @@ function equals (a, b) {
   let i = 0
 
   for (let n = len - (len % 4); i < n; i += 4) {
-    if (a.getUint32(i) !== b.getUint32(i)) return false
+    if (a.getUint32(i, LE) !== b.getUint32(i, LE)) return false
   }
 
   for (; i < len; i++) {
