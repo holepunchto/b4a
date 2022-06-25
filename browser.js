@@ -36,7 +36,7 @@ function isEncoding (encoding) {
   try {
     codecFor(encoding)
     return true
-  } catch {
+  } catch (err) {
     return false
   }
 }
