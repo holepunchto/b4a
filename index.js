@@ -83,6 +83,22 @@ function write (buffer, string, offset, length, encoding) {
   return toBuffer(buffer).write(string, offset, length, encoding)
 }
 
+function writeDoubleLE (buffer, value, offset) {
+  return toBuffer(buffer).writeDoubleLE(value, offset)
+}
+
+function writeFloatLE (buffer, value, offset) {
+  return toBuffer(buffer).writeFloatLE(value, offset)
+}
+
+function writeUInt32LE (buffer, value, offset) {
+  return toBuffer(buffer).writeUInt32LE(value, offset)
+}
+
+function writeInt32LE (buffer, value, offset) {
+  return toBuffer(buffer).writeInt32LE(value, offset)
+}
+
 module.exports = {
   isBuffer,
   isEncoding,
@@ -104,5 +120,9 @@ module.exports = {
   swap64,
   toBuffer,
   toString,
-  write
+  write,
+  writeDoubleLE,
+  writeFloatLE,
+  writeUInt32LE,
+  writeInt32LE
 }
