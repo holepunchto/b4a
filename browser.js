@@ -395,6 +395,46 @@ function write (buffer, string, offset, length, encoding) {
   return codecFor(encoding).write(buffer, string, offset, length)
 }
 
+function writeDoubleLE (buffer, value, offset) {
+  offset ??= 0
+
+  const view = new DataView(buffer.buffer)
+  view.setFloat64(offset, value, true)
+
+  const bytesInDouble = 8
+  return offset + bytesInDouble
+}
+
+function writeFloatLE (buffer, value, offset) {
+  offset ??= 0
+
+  const view = new DataView(buffer.buffer)
+  view.setFloat32(offset, value, true)
+
+  const bytesInFloat = 4
+  return offset + bytesInFloat
+}
+
+function writeUInt32LE (buffer, value, offset) {
+  offset ??= 0
+
+  const view = new DataView(buffer.buffer)
+  view.setUint32(offset, value, true)
+
+  const bytesInUInt = 4
+  return offset + bytesInUInt
+}
+
+function writeInt32LE (buffer, value, offset) {
+  offset ??= 0
+
+  const view = new DataView(buffer.buffer)
+  view.setInt32(offset, value, true)
+
+  const bytesInInt = 4
+  return offset + bytesInInt
+}
+
 module.exports = {
   isBuffer,
   isEncoding,
@@ -416,5 +456,9 @@ module.exports = {
   swap64,
   toBuffer,
   toString,
-  write
+  write,
+  writeDoubleLE,
+  writeFloatLE,
+  writeUInt32LE,
+  writeInt32LE
 }

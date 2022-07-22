@@ -177,3 +177,75 @@ test('toString', (t) => {
     t.is(b.toString(buffer, 'utf16le'), '\u0201\u0403')
   })
 })
+
+test('writeDoubleLE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeDoubleLE(buffer, 123.456)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getFloat64(0, true), 123.456)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(16)
+    const updatedOffset = b.writeDoubleLE(buffer, 123.456, 8)
+
+    t.is(updatedOffset, 16)
+    t.is(new DataView(buffer.buffer).getFloat64(8, true), 123.456)
+  })
+})
+
+test('writeFloatLE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(4)
+    const updatedOffset = b.writeFloatLE(buffer, 123.5)
+
+    t.is(updatedOffset, 4)
+    t.is(new DataView(buffer.buffer).getFloat32(0, true), 123.5)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeFloatLE(buffer, 123.5, 4)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getFloat32(4, true), 123.5)
+  })
+})
+
+test('writeUInt32LE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(4)
+    const updatedOffset = b.writeUInt32LE(buffer, 123)
+
+    t.is(updatedOffset, 4)
+    t.is(new DataView(buffer.buffer).getUint32(0, true), 123)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeUInt32LE(buffer, 123, 4)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getUint32(4, true), 123)
+  })
+})
+
+test('writeInt32LE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(4)
+    const updatedOffset = b.writeInt32LE(buffer, 123)
+
+    t.is(updatedOffset, 4)
+    t.is(new DataView(buffer.buffer).getInt32(0, true), 123)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeInt32LE(buffer, 123, 4)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getInt32(4, true), 123)
+  })
+})
