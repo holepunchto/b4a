@@ -123,6 +123,21 @@ https://nodejs.org/api/buffer.html#bufwriteuint32levalue-offset
 
 See https://nodejs.org/api/buffer.html#bufwriteint32levalue-offset
 
+### `b4a.readDoubleLE(buffer[, offset])`
+
+See https://nodejs.org/api/buffer.html#bufreaddoubleleoffset
+
+### `b4a.readFloatLE(buffer[, offset])`
+
+See https://nodejs.org/api/buffer.html#bufreadfloatleoffset
+
+### `b4a.readUInt32LE(buffer[, offset])`
+
+See https://nodejs.org/api/buffer.html#bufreaduint32leoffset
+
+### `b4a.readInt32LE(buffer[, offset])`
+
+See https://nodejs.org/api/buffer.html#bufreadint32leoffset
 ## License
 
 ISC
