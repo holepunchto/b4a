@@ -435,6 +435,31 @@ function writeInt32LE (buffer, value, offset) {
   return offset + bytesInInt
 }
 
+function readDoubleLE (buffer, offset) {
+  const view = getDataview(buffer, offset)
+  return view.getFloat64(0, true)
+}
+
+function readFloatLE (buffer, offset) {
+  const view = getDataview(buffer, offset)
+  return view.getFloat32(0, true)
+}
+
+function readUInt32LE (buffer, offset) {
+  const view = getDataview(buffer, offset)
+  return view.getUint32(0, true)
+}
+
+function readInt32LE (buffer, offset) {
+  const view = getDataview(buffer, offset)
+  return view.getInt32(0, true)
+}
+
+function getDataview (buffer, offset) {
+  offset ??= 0
+  return new DataView(buffer.buffer, offset)
+}
+
 module.exports = {
   isBuffer,
   isEncoding,
@@ -460,5 +485,9 @@ module.exports = {
   writeDoubleLE,
   writeFloatLE,
   writeUInt32LE,
-  writeInt32LE
+  writeInt32LE,
+  readDoubleLE,
+  readFloatLE,
+  readUInt32LE,
+  readInt32LE
 }

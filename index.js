@@ -99,6 +99,22 @@ function writeInt32LE (buffer, value, offset) {
   return toBuffer(buffer).writeInt32LE(value, offset)
 }
 
+function readDoubleLE (buffer, offset) {
+  return toBuffer(buffer).readDoubleLE(offset)
+}
+
+function readFloatLE (buffer, offset) {
+  return toBuffer(buffer).readFloatLE(offset)
+}
+
+function readUInt32LE (buffer, offset) {
+  return toBuffer(buffer).readUInt32LE(offset)
+}
+
+function readInt32LE (buffer, offset) {
+  return toBuffer(buffer).readInt32LE(offset)
+}
+
 module.exports = {
   isBuffer,
   isEncoding,
@@ -124,5 +140,9 @@ module.exports = {
   writeDoubleLE,
   writeFloatLE,
   writeUInt32LE,
-  writeInt32LE
+  writeInt32LE,
+  readDoubleLE,
+  readFloatLE,
+  readUInt32LE,
+  readInt32LE
 }
