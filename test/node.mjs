@@ -1,6 +1,7 @@
 import test from 'brittle'
 
 import b from '../index.js'
+import browserExports from '../browser.js'
 
 test('writeDoubleLE', (t) => {
   const value = 123.456
@@ -140,4 +141,14 @@ test('readInt32LE', (t) => {
     const expected = 83886080
     t.is(actual, expected)
   })
+})
+
+test('browser.js and index.js export same functions', (t) => {
+  const browserFunctions = Object.keys(browserExports)
+  browserFunctions.sort()
+
+  const nodeFunctions = Object.keys(b)
+  nodeFunctions.sort()
+
+  t.alike(browserFunctions, nodeFunctions)
 })
