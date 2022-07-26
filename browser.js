@@ -396,68 +396,71 @@ function write (buffer, string, offset, length, encoding) {
 }
 
 function writeDoubleLE (buffer, value, offset) {
-  offset ??= 0
+  if (offset === undefined) offset = 0
 
-  const view = new DataView(buffer.buffer)
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
   view.setFloat64(offset, value, true)
 
-  const bytesInDouble = 8
-  return offset + bytesInDouble
+  return offset + 8
 }
 
 function writeFloatLE (buffer, value, offset) {
-  offset ??= 0
+  if (offset === undefined) offset = 0
 
-  const view = new DataView(buffer.buffer)
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
   view.setFloat32(offset, value, true)
 
-  const bytesInFloat = 4
-  return offset + bytesInFloat
+  return offset + 4
 }
 
 function writeUInt32LE (buffer, value, offset) {
-  offset ??= 0
+  if (offset === undefined) offset = 0
 
-  const view = new DataView(buffer.buffer)
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
   view.setUint32(offset, value, true)
 
-  const bytesInUInt = 4
-  return offset + bytesInUInt
+  return offset + 4
 }
 
 function writeInt32LE (buffer, value, offset) {
-  offset ??= 0
+  if (offset === undefined) offset = 0
 
-  const view = new DataView(buffer.buffer)
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
   view.setInt32(offset, value, true)
 
-  const bytesInInt = 4
-  return offset + bytesInInt
+  return offset + 4
 }
 
 function readDoubleLE (buffer, offset) {
-  const view = getDataview(buffer, offset)
-  return view.getFloat64(0, true)
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getFloat64(offset, true)
 }
 
 function readFloatLE (buffer, offset) {
-  const view = getDataview(buffer, offset)
-  return view.getFloat32(0, true)
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getFloat32(offset, true)
 }
 
 function readUInt32LE (buffer, offset) {
-  const view = getDataview(buffer, offset)
-  return view.getUint32(0, true)
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getUint32(offset, true)
 }
 
 function readInt32LE (buffer, offset) {
-  const view = getDataview(buffer, offset)
-  return view.getInt32(0, true)
-}
+  if (offset === undefined) offset = 0
 
-function getDataview (buffer, offset) {
-  offset ??= 0
-  return new DataView(buffer.buffer, offset)
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getInt32(offset, true)
 }
 
 module.exports = {
