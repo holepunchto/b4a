@@ -1,7 +1,6 @@
 import test from 'brittle'
 
 import b from '../index.js'
-import browserExports from '../browser.js'
 
 test('writeDoubleLE', (t) => {
   const value = 123.456
@@ -159,12 +158,8 @@ test('readInt32LE', (t) => {
   })
 })
 
-test('browser.js and index.js export same functions', (t) => {
-  const browserFunctions = Object.keys(browserExports)
-  browserFunctions.sort()
+test('browser.js and index.js export same functions', async (t) => {
+  const { default: browser } = await import('../browser.js')
 
-  const nodeFunctions = Object.keys(b)
-  nodeFunctions.sort()
-
-  t.alike(browserFunctions, nodeFunctions)
+  t.alike(Object.keys(browser).sort(), Object.keys(b).sort())
 })
