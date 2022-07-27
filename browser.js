@@ -395,6 +395,74 @@ function write (buffer, string, offset, length, encoding) {
   return codecFor(encoding).write(buffer, string, offset, length)
 }
 
+function writeDoubleLE (buffer, value, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+  view.setFloat64(offset, value, true)
+
+  return offset + 8
+}
+
+function writeFloatLE (buffer, value, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+  view.setFloat32(offset, value, true)
+
+  return offset + 4
+}
+
+function writeUInt32LE (buffer, value, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+  view.setUint32(offset, value, true)
+
+  return offset + 4
+}
+
+function writeInt32LE (buffer, value, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+  view.setInt32(offset, value, true)
+
+  return offset + 4
+}
+
+function readDoubleLE (buffer, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getFloat64(offset, true)
+}
+
+function readFloatLE (buffer, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getFloat32(offset, true)
+}
+
+function readUInt32LE (buffer, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getUint32(offset, true)
+}
+
+function readInt32LE (buffer, offset) {
+  if (offset === undefined) offset = 0
+
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+
+  return view.getInt32(offset, true)
+}
+
 module.exports = {
   isBuffer,
   isEncoding,
@@ -416,5 +484,13 @@ module.exports = {
   swap64,
   toBuffer,
   toString,
-  write
+  write,
+  writeDoubleLE,
+  writeFloatLE,
+  writeUInt32LE,
+  writeInt32LE,
+  readDoubleLE,
+  readFloatLE,
+  readUInt32LE,
+  readInt32LE
 }
