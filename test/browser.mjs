@@ -6,6 +6,12 @@ test('alloc', (t) => {
   t.is(b.alloc(42).byteLength, 42)
 })
 
+test('alloc with fill', (t) => {
+  const buf = b.alloc(5, 0xff)
+  t.is(buf.byteLength, 5)
+  for (let i = 0; i < 5; i++) t.is(buf[i], 0xff)
+})
+
 test('allocUnsafe', (t) => {
   t.is(b.allocUnsafe(42).byteLength, 42)
 })

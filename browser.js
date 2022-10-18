@@ -43,7 +43,7 @@ function isEncoding (encoding) {
 
 function alloc (size, fill, encoding) {
   const buffer = new Uint8Array(size)
-  if (fill !== undefined) fill(buffer, fill, 0, buffer.byteLength, encoding)
+  if (fill !== undefined) exports.fill(buffer, fill, 0, buffer.byteLength, encoding)
   return buffer
 }
 
@@ -463,7 +463,7 @@ function readInt32LE (buffer, offset) {
   return view.getInt32(offset, true)
 }
 
-module.exports = {
+module.exports = exports = {
   isBuffer,
   isEncoding,
   alloc,
