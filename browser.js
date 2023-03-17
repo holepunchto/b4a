@@ -164,9 +164,9 @@ function fill (buffer, value, offset, end, encoding) {
       encoding = end
       end = buffer.byteLength
     }
-  } else if (typeof val === 'number') {
+  } else if (typeof value === 'number') {
     value = value & 0xff
-  } else if (typeof val === 'boolean') {
+  } else if (typeof value === 'boolean') {
     value = +value
   }
 
