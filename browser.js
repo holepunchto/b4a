@@ -92,13 +92,16 @@ function concat (buffers, totalLength) {
 
   const result = new Uint8Array(totalLength)
 
-  buffers.reduce(
-    (offset, buffer) => {
-      result.set(buffer, offset)
-      return offset + buffer.byteLength
-    },
-    0
-  )
+  let offset = 0
+  for (const buffer of buffers) {
+    if (offset + buffer.length > result.length) {
+      const sub = buffer.slice(0, result.length - offset)
+      result.set(sub, offset)
+      return result
+    }
+    result.set(buffer, offset)
+    offset += buffer.length
+  }
 
   return result
 }
