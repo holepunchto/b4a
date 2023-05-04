@@ -58,8 +58,7 @@ test('concat with length', (t) => {
   t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 5), b.from([1, 2, 3, 4, 5]))
   t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6], [7, 8, 9])], 5), b.from([1, 2, 3, 4, 5]))
   t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 6), b.from([1, 2, 3, 4, 5, 6]))
-  const initValue = 0
-  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 7), b.from([1, 2, 3, 4, 5, 6, initValue]))
+  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 7), b.from([1, 2, 3, 4, 5, 6, 0]))
 })
 
 test('copy', (t) => {
