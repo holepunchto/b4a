@@ -95,7 +95,7 @@ function concat (buffers, totalLength) {
   let offset = 0
   for (const buffer of buffers) {
     if (offset + buffer.length > result.length) {
-      const sub = buffer.slice(0, result.length - offset)
+      const sub = buffer.subarray(0, result.length - offset)
       result.set(sub, offset)
       return result
     }
