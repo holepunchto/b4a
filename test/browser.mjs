@@ -406,3 +406,192 @@ test('readInt32LE', (t) => {
     t.is(actual, expected)
   })
 })
+
+test('writeFloatBE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(4)
+    const updatedOffset = b.writeFloatBE(buffer, 123.5)
+
+    t.is(updatedOffset, 4)
+    t.is(new DataView(buffer.buffer).getFloat32(0, false), 123.5)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeFloatBE(buffer, 123.5, 4)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getFloat32(4, false), 123.5)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = b.alloc(8)
+    const sub = buffer.subarray(2)
+
+    b.writeFloatBE(sub, 123.5)
+
+    t.is(new DataView(buffer.buffer).getFloat32(2, false), 123.5)
+  })
+})
+
+test('writeUInt32BE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(4)
+    const updatedOffset = b.writeUInt32BE(buffer, 123)
+
+    t.is(updatedOffset, 4)
+    t.is(new DataView(buffer.buffer).getUint32(0, false), 123)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeUInt32BE(buffer, 123, 4)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getUint32(4, false), 123)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = b.alloc(8)
+    const sub = buffer.subarray(2)
+
+    b.writeUInt32BE(sub, 123)
+
+    t.is(new DataView(buffer.buffer).getUint32(2, false), 123)
+  })
+})
+
+test('writeInt32BE', (t) => {
+  t.test('offset 0', (t) => {
+    const buffer = b.alloc(4)
+    const updatedOffset = b.writeInt32BE(buffer, 123)
+
+    t.is(updatedOffset, 4)
+    t.is(new DataView(buffer.buffer).getInt32(0, false), 123)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = b.alloc(8)
+    const updatedOffset = b.writeInt32BE(buffer, 123, 4)
+
+    t.is(updatedOffset, 8)
+    t.is(new DataView(buffer.buffer).getInt32(4, false), 123)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = b.alloc(8)
+    const sub = buffer.subarray(2)
+
+    b.writeInt32BE(sub, 123)
+
+    t.is(new DataView(buffer.buffer).getInt32(2, false), 123)
+  })
+})
+
+test('readDoubleBE', (t) => {
+  const expected = 5.447603722011605e-270
+
+  t.test('offset 0', (t) => {
+    const buffer = new Uint8Array([8, 7, 6, 5, 4, 3, 2, 1])
+
+    const actual = b.readDoubleBE(buffer)
+    t.is(actual, expected)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = new Uint8Array(
+      [...new Array(8).fill(0), ...[8, 7, 6, 5, 4, 3, 2, 1]]
+    )
+
+    const actual = b.readDoubleBE(buffer, 8)
+    t.is(actual, expected)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = new Uint8Array(
+      [...new Array(4).fill(0), ...[8, 7, 6, 5, 4, 3, 2, 1]]
+    )
+    const sub = buffer.subarray(4)
+
+    const actual = b.readDoubleBE(sub)
+    t.is(actual, expected)
+  })
+})
+
+test('readFloatBE', (t) => {
+  const expected = 1.539989614439558e-36
+
+  t.test('offset 0', (t) => {
+    const buffer = new Uint8Array([4, 3, 2, 1])
+
+    const actual = b.readFloatBE(buffer)
+    t.is(actual, expected)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = new Uint8Array([0, 0, 0, 0, 4, 3, 2, 1])
+
+    const actual = b.readFloatBE(buffer, 4)
+    t.is(actual, expected)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = new Uint8Array([0, 0, 4, 3, 2, 1])
+    const sub = buffer.subarray(2)
+
+    const actual = b.readFloatBE(sub)
+    t.is(actual, expected)
+  })
+})
+
+test('readUInt32BE', (t) => {
+  const expected = '78563412'
+
+  t.test('Offset 0', (t) => {
+    const buffer = new Uint8Array([0x78, 0x56, 0x34, 0x12])
+
+    const actual = b.readUInt32BE(buffer).toString(16)
+    t.is(actual, expected)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = new Uint8Array([0, 0, 0, 0, 0x78, 0x56, 0x34, 0x12])
+
+    const actual = b.readUInt32BE(buffer, 4).toString(16)
+    t.is(actual, expected)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = new Uint8Array([0, 0, 0x78, 0x56, 0x34, 0x12])
+    const sub = buffer.subarray(2)
+
+    const actual = b.readUInt32BE(sub).toString(16)
+    t.is(actual, expected)
+  })
+})
+
+test('readInt32BE', (t) => {
+  const expected = 83886080
+
+  t.test('Offset 0', (t) => {
+    const buffer = new Uint8Array([5, 0, 0, 0])
+
+    const actual = b.readInt32BE(buffer)
+    t.is(actual, expected)
+  })
+
+  t.test('other offset', (t) => {
+    const buffer = new Uint8Array([0, 0, 0, 0, 5, 0, 0, 0])
+
+    const actual = b.readInt32BE(buffer, 4)
+    t.is(actual, expected)
+  })
+
+  t.test('sub-buffer', (t) => {
+    const buffer = new Uint8Array([0, 0, 5, 0, 0, 0])
+    const sub = buffer.subarray(2)
+
+    const actual = b.readInt32BE(sub)
+    t.is(actual, expected)
+  })
+})
