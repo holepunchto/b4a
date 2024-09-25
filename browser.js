@@ -17,6 +17,7 @@ function codecFor (encoding) {
     case 'utf8':
     case 'utf-8':
     case undefined:
+    case null:
       return utf8
     case 'ucs2':
     case 'ucs-2':
