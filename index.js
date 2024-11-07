@@ -185,5 +185,4 @@ module.exports = {
   readFloatBE,
   readUInt32BE,
   readInt32BE
-
 }
