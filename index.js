@@ -83,68 +83,68 @@ function write(buffer, string, offset, length, encoding) {
   return toBuffer(buffer).write(string, offset, length, encoding)
 }
 
-function writeDoubleLE(buffer, value, offset) {
-  return toBuffer(buffer).writeDoubleLE(value, offset)
-}
-
-function writeFloatLE(buffer, value, offset) {
-  return toBuffer(buffer).writeFloatLE(value, offset)
-}
-
-function writeUInt32LE(buffer, value, offset) {
-  return toBuffer(buffer).writeUInt32LE(value, offset)
-}
-
-function writeInt32LE(buffer, value, offset) {
-  return toBuffer(buffer).writeInt32LE(value, offset)
+function readDoubleBE(buffer, offset) {
+  return toBuffer(buffer).readDoubleBE(offset)
 }
 
 function readDoubleLE(buffer, offset) {
   return toBuffer(buffer).readDoubleLE(offset)
 }
 
+function readFloatBE(buffer, offset) {
+  return toBuffer(buffer).readFloatBE(offset)
+}
+
 function readFloatLE(buffer, offset) {
   return toBuffer(buffer).readFloatLE(offset)
 }
 
-function readUInt32LE(buffer, offset) {
-  return toBuffer(buffer).readUInt32LE(offset)
+function readInt32BE(buffer, offset) {
+  return toBuffer(buffer).readInt32BE(offset)
 }
 
 function readInt32LE(buffer, offset) {
   return toBuffer(buffer).readInt32LE(offset)
 }
 
+function readUInt32BE(buffer, offset) {
+  return toBuffer(buffer).readUInt32BE(offset)
+}
+
+function readUInt32LE(buffer, offset) {
+  return toBuffer(buffer).readUInt32LE(offset)
+}
+
 function writeDoubleBE(buffer, value, offset) {
   return toBuffer(buffer).writeDoubleBE(value, offset)
+}
+
+function writeDoubleLE(buffer, value, offset) {
+  return toBuffer(buffer).writeDoubleLE(value, offset)
 }
 
 function writeFloatBE(buffer, value, offset) {
   return toBuffer(buffer).writeFloatBE(value, offset)
 }
 
-function writeUInt32BE(buffer, value, offset) {
-  return toBuffer(buffer).writeUInt32BE(value, offset)
+function writeFloatLE(buffer, value, offset) {
+  return toBuffer(buffer).writeFloatLE(value, offset)
 }
 
 function writeInt32BE(buffer, value, offset) {
   return toBuffer(buffer).writeInt32BE(value, offset)
 }
 
-function readDoubleBE(buffer, offset) {
-  return toBuffer(buffer).readDoubleBE(offset)
+function writeInt32LE(buffer, value, offset) {
+  return toBuffer(buffer).writeInt32LE(value, offset)
 }
 
-function readFloatBE(buffer, offset) {
-  return toBuffer(buffer).readFloatBE(offset)
+function writeUInt32BE(buffer, value, offset) {
+  return toBuffer(buffer).writeUInt32BE(value, offset)
 }
 
-function readUInt32BE(buffer, offset) {
-  return toBuffer(buffer).readUInt32BE(offset)
-}
-
-function readInt32BE(buffer, offset) {
-  return toBuffer(buffer).readInt32BE(offset)
+function writeUInt32LE(buffer, value, offset) {
+  return toBuffer(buffer).writeUInt32LE(value, offset)
 }
 
 module.exports = {
@@ -169,20 +169,20 @@ module.exports = {
   toBuffer,
   toString,
   write,
-  writeDoubleLE,
-  writeFloatLE,
-  writeUInt32LE,
-  writeInt32LE,
-  readDoubleLE,
-  readFloatLE,
-  readUInt32LE,
-  readInt32LE,
-  writeDoubleBE,
-  writeFloatBE,
-  writeUInt32BE,
-  writeInt32BE,
   readDoubleBE,
+  readDoubleLE,
   readFloatBE,
+  readFloatLE,
+  readInt32BE,
+  readInt32LE,
   readUInt32BE,
-  readInt32BE
+  readUInt32LE,
+  writeDoubleBE,
+  writeDoubleLE,
+  writeFloatBE,
+  writeFloatLE,
+  writeInt32BE,
+  writeInt32LE,
+  writeUInt32BE,
+  writeUInt32LE
 }
