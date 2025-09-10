@@ -12,7 +12,7 @@
     "./index.js": "./browser.js"
   },
   "scripts": {
-    "test": "standard && brittle test/*.mjs"
+    "test": "prettier . --check && brittle test/*.mjs"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "brittle": "^3.5.2",
     "nanobench": "^3.0.0",
-    "standard": "^17.1.0"
+    "prettier": "^3.6.2",
+    "prettier-config-standard": "^7.0.0"
   }
 }

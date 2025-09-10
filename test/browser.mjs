@@ -45,20 +45,39 @@ test('compare', (t) => {
 
   t.test('varying alignment', (t) => {
     for (let i = 0; i < 10; i++) {
-      t.is(b.compare(b.alloc(i).subarray(i), b.alloc(i).subarray(i)), 0, `offset ${i}`)
+      t.is(
+        b.compare(b.alloc(i).subarray(i), b.alloc(i).subarray(i)),
+        0,
+        `offset ${i}`
+      )
     }
   })
 })
 
 test('concat', (t) => {
-  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])]), b.from([1, 2, 3, 4, 5, 6]))
+  t.alike(
+    b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])]),
+    b.from([1, 2, 3, 4, 5, 6])
+  )
 })
 
 test('concat with length', (t) => {
-  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 5), b.from([1, 2, 3, 4, 5]))
-  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6], [7, 8, 9])], 5), b.from([1, 2, 3, 4, 5]))
-  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 6), b.from([1, 2, 3, 4, 5, 6]))
-  t.alike(b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 7), b.from([1, 2, 3, 4, 5, 6, 0]))
+  t.alike(
+    b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 5),
+    b.from([1, 2, 3, 4, 5])
+  )
+  t.alike(
+    b.concat([b.from([1, 2, 3]), b.from([4, 5, 6], [7, 8, 9])], 5),
+    b.from([1, 2, 3, 4, 5])
+  )
+  t.alike(
+    b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 6),
+    b.from([1, 2, 3, 4, 5, 6])
+  )
+  t.alike(
+    b.concat([b.from([1, 2, 3]), b.from([4, 5, 6])], 7),
+    b.from([1, 2, 3, 4, 5, 6, 0])
+  )
 })
 
 test('copy', (t) => {
@@ -89,7 +108,11 @@ test('equals', (t) => {
 
   t.test('varying alignment', (t) => {
     for (let i = 0; i < 10; i++) {
-      t.is(b.equals(b.alloc(i).subarray(i), b.alloc(i).subarray(i)), true, `offset ${i}`)
+      t.is(
+        b.equals(b.alloc(i).subarray(i), b.alloc(i).subarray(i)),
+        true,
+        `offset ${i}`
+      )
     }
   })
 })
@@ -310,18 +333,20 @@ test('readDoubleLE', (t) => {
   })
 
   t.test('other offset', (t) => {
-    const buffer = new Uint8Array(
-      [...new Array(8).fill(0), ...[1, 2, 3, 4, 5, 6, 7, 8]]
-    )
+    const buffer = new Uint8Array([
+      ...new Array(8).fill(0),
+      ...[1, 2, 3, 4, 5, 6, 7, 8]
+    ])
 
     const actual = b.readDoubleLE(buffer, 8)
     t.is(actual, expected)
   })
 
   t.test('sub-buffer', (t) => {
-    const buffer = new Uint8Array(
-      [...new Array(4).fill(0), ...[1, 2, 3, 4, 5, 6, 7, 8]]
-    )
+    const buffer = new Uint8Array([
+      ...new Array(4).fill(0),
+      ...[1, 2, 3, 4, 5, 6, 7, 8]
+    ])
     const sub = buffer.subarray(4)
 
     const actual = b.readDoubleLE(sub)
@@ -499,18 +524,20 @@ test('readDoubleBE', (t) => {
   })
 
   t.test('other offset', (t) => {
-    const buffer = new Uint8Array(
-      [...new Array(8).fill(0), ...[8, 7, 6, 5, 4, 3, 2, 1]]
-    )
+    const buffer = new Uint8Array([
+      ...new Array(8).fill(0),
+      ...[8, 7, 6, 5, 4, 3, 2, 1]
+    ])
 
     const actual = b.readDoubleBE(buffer, 8)
     t.is(actual, expected)
   })
 
   t.test('sub-buffer', (t) => {
-    const buffer = new Uint8Array(
-      [...new Array(4).fill(0), ...[8, 7, 6, 5, 4, 3, 2, 1]]
-    )
+    const buffer = new Uint8Array([
+      ...new Array(4).fill(0),
+      ...[8, 7, 6, 5, 4, 3, 2, 1]
+    ])
     const sub = buffer.subarray(4)
 
     const actual = b.readDoubleBE(sub)

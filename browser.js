@@ -6,7 +6,7 @@ const utf16le = require('./lib/utf16le')
 
 const LE = new Uint8Array(Uint16Array.of(0xff).buffer)[0] === 0xff
 
-function codecFor (encoding) {
+function codecFor(encoding) {
   switch (encoding) {
     case 'ascii':
       return ascii
@@ -25,15 +25,15 @@ function codecFor (encoding) {
     case 'utf-16le':
       return utf16le
     default:
-      throw new Error(`Unknown encoding: ${encoding}`)
+      throw new Error(`Unknown encoding '${encoding}'`)
   }
 }
 
-function isBuffer (value) {
+function isBuffer(value) {
   return value instanceof Uint8Array
 }
 
-function isEncoding (encoding) {
+function isEncoding(encoding) {
   try {
     codecFor(encoding)
     return true
@@ -42,25 +42,26 @@ function isEncoding (encoding) {
   }
 }
 
-function alloc (size, fill, encoding) {
+function alloc(size, fill, encoding) {
   const buffer = new Uint8Array(size)
-  if (fill !== undefined) exports.fill(buffer, fill, 0, buffer.byteLength, encoding)
+  if (fill !== undefined)
+    exports.fill(buffer, fill, 0, buffer.byteLength, encoding)
   return buffer
 }
 
-function allocUnsafe (size) {
+function allocUnsafe(size) {
   return new Uint8Array(size)
 }
 
-function allocUnsafeSlow (size) {
+function allocUnsafeSlow(size) {
   return new Uint8Array(size)
 }
 
-function byteLength (string, encoding) {
+function byteLength(string, encoding) {
   return codecFor(encoding).byteLength(string)
 }
 
-function compare (a, b) {
+function compare(a, b) {
   if (a === b) return 0
 
   const len = Math.min(a.byteLength, b.byteLength)
@@ -86,7 +87,7 @@ function compare (a, b) {
   return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
 }
 
-function concat (buffers, totalLength) {
+function concat(buffers, totalLength) {
   if (totalLength === undefined) {
     totalLength = buffers.reduce((len, buffer) => len + buffer.byteLength, 0)
   }
@@ -107,13 +108,20 @@ function concat (buffers, totalLength) {
   return result
 }
 
-function copy (source, target, targetStart = 0, start = 0, end = source.byteLength) {
+function copy(
+  source,
+  target,
+  targetStart = 0,
+  start = 0,
+  end = source.byteLength
+) {
   if (end > 0 && end < start) return 0
   if (end === start) return 0
   if (source.byteLength === 0 || target.byteLength === 0) return 0
 
   if (targetStart < 0) throw new RangeError('targetStart is out of range')
-  if (start < 0 || start >= source.byteLength) throw new RangeError('sourceStart is out of range')
+  if (start < 0 || start >= source.byteLength)
+    throw new RangeError('sourceStart is out of range')
   if (end < 0) throw new RangeError('sourceEnd is out of range')
 
   if (targetStart >= target.byteLength) targetStart = target.byteLength
@@ -133,7 +141,7 @@ function copy (source, target, targetStart = 0, start = 0, end = source.byteLeng
   return len
 }
 
-function equals (a, b) {
+function equals(a, b) {
   if (a === b) return true
   if (a.byteLength !== b.byteLength) return false
 
@@ -155,7 +163,7 @@ function equals (a, b) {
   return true
 }
 
-function fill (buffer, value, offset, end, encoding) {
+function fill(buffer, value, offset, end, encoding) {
   if (typeof value === 'string') {
     // fill(buffer, string, encoding)
     if (typeof offset === 'string') {
@@ -163,7 +171,7 @@ function fill (buffer, value, offset, end, encoding) {
       offset = 0
       end = buffer.byteLength
 
-    // fill(buffer, string, offset, encoding)
+      // fill(buffer, string, offset, encoding)
     } else if (typeof end === 'string') {
       encoding = end
       end = buffer.byteLength
@@ -202,7 +210,7 @@ function fill (buffer, value, offset, end, encoding) {
   return buffer
 }
 
-function from (value, encodingOrOffset, length) {
+function from(value, encodingOrOffset, length) {
   // from(string, encoding)
   if (typeof value === 'string') return fromString(value, encodingOrOffset)
 
@@ -216,41 +224,41 @@ function from (value, encodingOrOffset, length) {
   return fromArrayBuffer(value, encodingOrOffset, length)
 }
 
-function fromString (string, encoding) {
+function fromString(string, encoding) {
   const codec = codecFor(encoding)
   const buffer = new Uint8Array(codec.byteLength(string))
   codec.write(buffer, string, 0, buffer.byteLength)
   return buffer
 }
 
-function fromArray (array) {
+function fromArray(array) {
   const buffer = new Uint8Array(array.length)
   buffer.set(array)
   return buffer
 }
 
-function fromBuffer (buffer) {
+function fromBuffer(buffer) {
   const copy = new Uint8Array(buffer.byteLength)
   copy.set(buffer)
   return copy
 }
 
-function fromArrayBuffer (arrayBuffer, byteOffset, length) {
+function fromArrayBuffer(arrayBuffer, byteOffset, length) {
   return new Uint8Array(arrayBuffer, byteOffset, length)
 }
 
-function includes (buffer, value, byteOffset, encoding) {
+function includes(buffer, value, byteOffset, encoding) {
   return indexOf(buffer, value, byteOffset, encoding) !== -1
 }
 
-function bidirectionalIndexOf (buffer, value, byteOffset, encoding, first) {
+function bidirectionalIndexOf(buffer, value, byteOffset, encoding, first) {
   if (buffer.byteLength === 0) return -1
 
   if (typeof byteOffset === 'string') {
     encoding = byteOffset
     byteOffset = 0
   } else if (byteOffset === undefined) {
-    byteOffset = first ? 0 : (buffer.length - 1)
+    byteOffset = first ? 0 : buffer.length - 1
   } else if (byteOffset < 0) {
     byteOffset += buffer.byteLength
   }
@@ -311,34 +319,48 @@ function bidirectionalIndexOf (buffer, value, byteOffset, encoding, first) {
   return -1
 }
 
-function indexOf (buffer, value, byteOffset, encoding) {
-  return bidirectionalIndexOf(buffer, value, byteOffset, encoding, true /* first */)
+function indexOf(buffer, value, byteOffset, encoding) {
+  return bidirectionalIndexOf(
+    buffer,
+    value,
+    byteOffset,
+    encoding,
+    true /* first */
+  )
 }
 
-function lastIndexOf (buffer, value, byteOffset, encoding) {
-  return bidirectionalIndexOf(buffer, value, byteOffset, encoding, false /* last */)
+function lastIndexOf(buffer, value, byteOffset, encoding) {
+  return bidirectionalIndexOf(
+    buffer,
+    value,
+    byteOffset,
+    encoding,
+    false /* last */
+  )
 }
 
-function swap (buffer, n, m) {
+function swap(buffer, n, m) {
   const i = buffer[n]
   buffer[n] = buffer[m]
   buffer[m] = i
 }
 
-function swap16 (buffer) {
+function swap16(buffer) {
   const len = buffer.byteLength
 
-  if (len % 2 !== 0) throw new RangeError('Buffer size must be a multiple of 16-bits')
+  if (len % 2 !== 0)
+    throw new RangeError('Buffer size must be a multiple of 16-bits')
 
   for (let i = 0; i < len; i += 2) swap(buffer, i, i + 1)
 
   return buffer
 }
 
-function swap32 (buffer) {
+function swap32(buffer) {
   const len = buffer.byteLength
 
-  if (len % 4 !== 0) throw new RangeError('Buffer size must be a multiple of 32-bits')
+  if (len % 4 !== 0)
+    throw new RangeError('Buffer size must be a multiple of 32-bits')
 
   for (let i = 0; i < len; i += 4) {
     swap(buffer, i, i + 3)
@@ -348,10 +370,11 @@ function swap32 (buffer) {
   return buffer
 }
 
-function swap64 (buffer) {
+function swap64(buffer) {
   const len = buffer.byteLength
 
-  if (len % 8 !== 0) throw new RangeError('Buffer size must be a multiple of 64-bits')
+  if (len % 8 !== 0)
+    throw new RangeError('Buffer size must be a multiple of 64-bits')
 
   for (let i = 0; i < len; i += 8) {
     swap(buffer, i, i + 7)
@@ -363,11 +386,11 @@ function swap64 (buffer) {
   return buffer
 }
 
-function toBuffer (buffer) {
+function toBuffer(buffer) {
   return buffer
 }
 
-function toString (buffer, encoding, start = 0, end = buffer.byteLength) {
+function toString(buffer, encoding, start = 0, end = buffer.byteLength) {
   const len = buffer.byteLength
 
   if (start >= len) return ''
@@ -380,17 +403,17 @@ function toString (buffer, encoding, start = 0, end = buffer.byteLength) {
   return codecFor(encoding).toString(buffer)
 }
 
-function write (buffer, string, offset, length, encoding) {
+function write(buffer, string, offset, length, encoding) {
   // write(buffer, string)
   if (offset === undefined) {
     encoding = 'utf8'
 
-  // write(buffer, string, encoding)
+    // write(buffer, string, encoding)
   } else if (length === undefined && typeof offset === 'string') {
     encoding = offset
     offset = undefined
 
-  // write(buffer, string, offset, encoding)
+    // write(buffer, string, offset, encoding)
   } else if (encoding === undefined && typeof length === 'string') {
     encoding = length
     length = undefined
@@ -399,7 +422,7 @@ function write (buffer, string, offset, length, encoding) {
   return codecFor(encoding).write(buffer, string, offset, length)
 }
 
-function writeDoubleLE (buffer, value, offset) {
+function writeDoubleLE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -408,7 +431,7 @@ function writeDoubleLE (buffer, value, offset) {
   return offset + 8
 }
 
-function writeFloatLE (buffer, value, offset) {
+function writeFloatLE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -417,7 +440,7 @@ function writeFloatLE (buffer, value, offset) {
   return offset + 4
 }
 
-function writeUInt32LE (buffer, value, offset) {
+function writeUInt32LE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -426,7 +449,7 @@ function writeUInt32LE (buffer, value, offset) {
   return offset + 4
 }
 
-function writeInt32LE (buffer, value, offset) {
+function writeInt32LE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -435,7 +458,7 @@ function writeInt32LE (buffer, value, offset) {
   return offset + 4
 }
 
-function readDoubleLE (buffer, offset) {
+function readDoubleLE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -443,7 +466,7 @@ function readDoubleLE (buffer, offset) {
   return view.getFloat64(offset, true)
 }
 
-function readFloatLE (buffer, offset) {
+function readFloatLE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -451,7 +474,7 @@ function readFloatLE (buffer, offset) {
   return view.getFloat32(offset, true)
 }
 
-function readUInt32LE (buffer, offset) {
+function readUInt32LE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -459,7 +482,7 @@ function readUInt32LE (buffer, offset) {
   return view.getUint32(offset, true)
 }
 
-function readInt32LE (buffer, offset) {
+function readInt32LE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -467,7 +490,7 @@ function readInt32LE (buffer, offset) {
   return view.getInt32(offset, true)
 }
 
-function writeDoubleBE (buffer, value, offset) {
+function writeDoubleBE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -476,7 +499,7 @@ function writeDoubleBE (buffer, value, offset) {
   return offset + 8
 }
 
-function writeFloatBE (buffer, value, offset) {
+function writeFloatBE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -485,7 +508,7 @@ function writeFloatBE (buffer, value, offset) {
   return offset + 4
 }
 
-function writeUInt32BE (buffer, value, offset) {
+function writeUInt32BE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -494,7 +517,7 @@ function writeUInt32BE (buffer, value, offset) {
   return offset + 4
 }
 
-function writeInt32BE (buffer, value, offset) {
+function writeInt32BE(buffer, value, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -503,7 +526,7 @@ function writeInt32BE (buffer, value, offset) {
   return offset + 4
 }
 
-function readDoubleBE (buffer, offset) {
+function readDoubleBE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -511,7 +534,7 @@ function readDoubleBE (buffer, offset) {
   return view.getFloat64(offset, false)
 }
 
-function readFloatBE (buffer, offset) {
+function readFloatBE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -519,7 +542,7 @@ function readFloatBE (buffer, offset) {
   return view.getFloat32(offset, false)
 }
 
-function readUInt32BE (buffer, offset) {
+function readUInt32BE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
@@ -527,7 +550,7 @@ function readUInt32BE (buffer, offset) {
   return view.getUint32(offset, false)
 }
 
-function readInt32BE (buffer, offset) {
+function readInt32BE(buffer, offset) {
   if (offset === undefined) offset = 0
 
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
