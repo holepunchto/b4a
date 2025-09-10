@@ -12,7 +12,10 @@
     "./index.js": "./browser.js"
   },
   "scripts": {
-    "test": "prettier . --check && brittle test/*.mjs"
+    "test": "npm run lint && npm run test:bare && npm run test:node",
+    "test:bare": "bare test.mjs",
+    "test:node": "node test.mjs",
+    "lint": "prettier . --check"
   },
   "repository": {
     "type": "git",
