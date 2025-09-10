@@ -2,15 +2,20 @@
   "name": "b4a",
   "version": "1.6.7",
   "description": "Bridging the gap between buffers and typed arrays",
-  "main": "index.js",
+  "exports": {
+    "./package": "./package.json",
+    ".": {
+      "react-native": "./react-native.js",
+      "browser": "./browser.js",
+      "default": "./index.js"
+    }
+  },
   "files": [
     "browser.js",
     "index.js",
+    "react-native.js",
     "lib"
   ],
-  "browser": {
-    "./index.js": "./browser.js"
-  },
   "scripts": {
     "test": "npm run lint && npm run test:bare && npm run test:node",
     "test:bare": "bare test.mjs",
@@ -32,5 +37,13 @@
     "nanobench": "^3.0.0",
     "prettier": "^3.6.2",
     "prettier-config-standard": "^7.0.0"
+  },
+  "peerDependencies": {
+    "react-native-b4a": "^0.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native-b4a": {
+      "optional": true
+    }
   }
 }
