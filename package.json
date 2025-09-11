@@ -39,7 +39,7 @@
     "prettier-config-standard": "^7.0.0"
   },
   "peerDependencies": {
-    "react-native-b4a": "^0.0.0"
+    "react-native-b4a": "*"
   },
   "peerDependenciesMeta": {
     "react-native-b4a": {
