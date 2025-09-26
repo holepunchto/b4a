@@ -384,7 +384,7 @@ function toString(
   end = buffer.byteLength
 ) {
   // toString(buffer)
-  if (arguments.length === 1) return utf8.toString(buffer, string)
+  if (arguments.length === 1) return utf8.toString(buffer)
 
   // toString(buffer, encoding)
   if (arguments.length === 2) return codecFor(encoding).toString(buffer)

@@ -206,6 +206,7 @@ test('toString', (t) => {
   })
 
   t.test('utf8', (t) => {
+    t.is(b.toString(buffer), '\x01\x02\x03\x04')
     t.is(b.toString(buffer, 'utf8'), '\x01\x02\x03\x04')
   })
 
