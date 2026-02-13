@@ -195,6 +195,7 @@ test('toString', (t) => {
 
   t.test('ascii', (t) => {
     t.is(b.toString(buffer, 'ascii'), '\x01\x02\x03\x04')
+    t.is(b.toString(b.from([0x80, 0x9f]), 'ascii'), '\x00\x1f')
   })
 
   t.test('base64', (t) => {
