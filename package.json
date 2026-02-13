@@ -1,6 +1,6 @@
 {
   "name": "b4a",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Bridging the gap between buffers and typed arrays",
   "exports": {
     "./package": "./package.json",
