@@ -216,6 +216,12 @@ test('toString', (t) => {
   })
 })
 
+test('from string', (t) => {
+  t.test('ascii', (t) => {
+    t.alike(b.from('\x80\x9f', 'ascii'), b.from([0x80, 0x9f]))
+  })
+})
+
 test('writeDoubleLE', (t) => {
   t.test('offset 0', (t) => {
     const buffer = b.alloc(8)
