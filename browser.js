@@ -15,6 +15,7 @@ function codecFor(encoding) {
       return base64
     case 'hex':
       return hex
+    case 'binary':
     case 'latin1':
       return latin1
     case 'utf8':
