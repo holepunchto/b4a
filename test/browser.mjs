@@ -25,6 +25,7 @@ test('byteLength', (t) => {
   t.is(b.byteLength('1234ab', 'utf8'), 6)
   t.is(b.byteLength('1234ab', 'ascii'), 6)
   t.is(b.byteLength('1234ab', 'hex'), 3)
+  t.is(b.byteLength('1234ab', 'latin1'), 6)
 })
 
 test('compare', (t) => {
@@ -214,11 +215,20 @@ test('toString', (t) => {
   t.test('utf16le', (t) => {
     t.is(b.toString(buffer, 'utf16le'), '\u0201\u0403')
   })
+
+  t.test('latin1', (t) => {
+    t.is(b.toString(buffer, 'latin1'), '\x01\x02\x03\x04')
+    t.is(b.toString(b.from([0xe7]), 'latin1'), 'ç')
+  })
 })
 
 test('from string', (t) => {
   t.test('ascii', (t) => {
     t.alike(b.from('\x80\x9f', 'ascii'), b.from([0x80, 0x9f]))
+  })
+
+  t.test('latin1', (t) => {
+    t.alike(b.from('\x80\x9f', 'latin1'), b.from([0x80, 0x9f]))
   })
 })
 

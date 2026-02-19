@@ -1,6 +1,7 @@
 const ascii = require('./lib/ascii')
 const base64 = require('./lib/base64')
 const hex = require('./lib/hex')
+const latin1 = require('./lib/latin1')
 const utf8 = require('./lib/utf8')
 const utf16le = require('./lib/utf16le')
 
@@ -14,6 +15,8 @@ function codecFor(encoding) {
       return base64
     case 'hex':
       return hex
+    case 'latin1':
+      return latin1
     case 'utf8':
     case 'utf-8':
     case undefined:
