@@ -217,6 +217,168 @@ test('write', (t) => {
 
     t.alike(buffer, b.from([0, 0, 0, 0, 0, 104, 101, 108, 108, 111, 0, 0, 0, 0, 0]))
   })
+
+  t.test('returns number of bytes written', (t) => {
+    t.is(b.write(b.alloc(15), 'hello'), 5)
+    t.is(b.write(b.alloc(15), 'hello', 5), 5)
+    t.is(b.write(b.alloc(15), 'hello', 5, 3), 3)
+    t.is(b.write(b.alloc(15), 'hello', 0, 0), 0)
+    t.is(b.write(b.alloc(15), '', 0), 0)
+    t.is(b.write(b.alloc(2), 'hello'), 2)
+  })
+
+  t.test('offset only', (t) => {
+    const buffer = b.alloc(10)
+
+    b.write(buffer, 'abc', 3)
+
+    t.alike(buffer, b.from([0, 0, 0, 0x61, 0x62, 0x63, 0, 0, 0, 0]))
+  })
+
+  t.test('offset and length', (t) => {
+    const buffer = b.alloc(10)
+
+    b.write(buffer, 'abcdef', 2, 3)
+
+    t.alike(buffer, b.from([0, 0, 0x61, 0x62, 0x63, 0, 0, 0, 0, 0]))
+  })
+
+  t.test('encoding only', (t) => {
+    const buffer = b.alloc(4)
+
+    b.write(buffer, 'AABB', 'hex')
+
+    t.alike(buffer, b.from([0xaa, 0xbb, 0, 0]))
+  })
+
+  t.test('offset and encoding', (t) => {
+    const buffer = b.alloc(4)
+
+    b.write(buffer, 'AABB', 1, 'hex')
+
+    t.alike(buffer, b.from([0, 0xaa, 0xbb, 0]))
+  })
+
+  t.test('offset, length, encoding', (t) => {
+    const buffer = b.alloc(4)
+
+    b.write(buffer, 'AABBCC', 1, 1, 'hex')
+
+    t.alike(buffer, b.from([0, 0xaa, 0, 0]))
+  })
+
+  t.test('utf8', (t) => {
+    const buffer = b.alloc(6)
+
+    b.write(buffer, '日本')
+
+    t.alike(buffer, b.from([0xe6, 0x97, 0xa5, 0xe6, 0x9c, 0xac]))
+  })
+
+  t.test('utf8 truncates at codepoint boundary', (t) => {
+    const buffer = b.alloc(6)
+    const written = b.write(buffer, '日本', 0, 4)
+
+    t.is(written, 3)
+    t.alike(buffer, b.from([0xe6, 0x97, 0xa5, 0, 0, 0]))
+  })
+
+  t.test('utf16le', (t) => {
+    const buffer = b.alloc(4)
+
+    b.write(buffer, 'AB', 'utf16le')
+
+    t.alike(buffer, b.from([0x41, 0x00, 0x42, 0x00]))
+  })
+
+  t.test('ascii', (t) => {
+    const buffer = b.alloc(5)
+
+    b.write(buffer, 'hello', 'ascii')
+
+    t.alike(buffer, b.from([0x68, 0x65, 0x6c, 0x6c, 0x6f]))
+  })
+
+  t.test('latin1', (t) => {
+    const buffer = b.alloc(5)
+
+    b.write(buffer, 'héllo', 'latin1')
+
+    t.alike(buffer, b.from([0x68, 0xe9, 0x6c, 0x6c, 0x6f]))
+  })
+
+  t.test('binary alias of latin1', (t) => {
+    const buffer = b.alloc(5)
+
+    b.write(buffer, 'héllo', 'binary')
+
+    t.alike(buffer, b.from([0x68, 0xe9, 0x6c, 0x6c, 0x6f]))
+  })
+
+  t.test('base64', (t) => {
+    const buffer = b.alloc(5)
+
+    b.write(buffer, 'aGVsbG8=', 'base64')
+
+    t.alike(buffer, b.from([0x68, 0x65, 0x6c, 0x6c, 0x6f]))
+  })
+
+  t.test('hex returns count for invalid character', (t) => {
+    const buffer = b.alloc(5)
+    const written = b.write(buffer, 'AAGG', 'hex')
+
+    t.is(written, 1)
+    t.alike(buffer, b.from([0xaa, 0, 0, 0, 0]))
+  })
+
+  t.test('truncates string longer than buffer', (t) => {
+    const buffer = b.alloc(3)
+    const written = b.write(buffer, 'hello')
+
+    t.is(written, 3)
+    t.alike(buffer, b.from([0x68, 0x65, 0x6c]))
+  })
+
+  t.test('truncates string longer than length', (t) => {
+    const buffer = b.alloc(10)
+    const written = b.write(buffer, 'hello', 0, 3)
+
+    t.is(written, 3)
+    t.alike(buffer, b.from([0x68, 0x65, 0x6c, 0, 0, 0, 0, 0, 0, 0]))
+  })
+
+  t.test('offset at byteLength', (t) => {
+    const buffer = b.alloc(5)
+    const written = b.write(buffer, 'hi', 5)
+
+    t.is(written, 0)
+    t.alike(buffer, b.alloc(5))
+  })
+
+  t.test('length 0', (t) => {
+    const buffer = b.alloc(5)
+    const written = b.write(buffer, 'hello', 0, 0)
+
+    t.is(written, 0)
+    t.alike(buffer, b.alloc(5))
+  })
+
+  t.test('empty string', (t) => {
+    const buffer = b.alloc(5)
+    const written = b.write(buffer, '')
+
+    t.is(written, 0)
+    t.alike(buffer, b.alloc(5))
+  })
+
+  t.test('subarray', (t) => {
+    const buffer = b.alloc(10)
+    const sub = buffer.subarray(2, 8)
+    const written = b.write(sub, 'hello')
+
+    t.is(written, 5)
+    t.alike(buffer, b.from([0, 0, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0, 0, 0]))
+  })
 })
 
 test('writeDoubleLE', (t) => {
