@@ -232,6 +232,19 @@ test('from string', (t) => {
   })
 })
 
+test('write', (t) => {
+  t.test('length', (t) => {
+    const buffer = b.alloc(15)
+
+    b.write(buffer, 'hello', 5)
+
+    t.alike(
+      buffer,
+      b.from([0, 0, 0, 0, 0, 104, 101, 108, 108, 111, 0, 0, 0, 0, 0])
+    )
+  })
+})
+
 test('writeDoubleLE', (t) => {
   t.test('offset 0', (t) => {
     const buffer = b.alloc(8)

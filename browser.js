@@ -406,7 +406,13 @@ function toString(
   return codecFor(encoding).toString(buffer)
 }
 
-function write(buffer, string, offset, length, encoding) {
+function write(
+  buffer,
+  string,
+  offset = 0,
+  length = buffer.byteLength,
+  encoding
+) {
   // write(buffer, string)
   if (arguments.length === 2) return utf8.write(buffer, string)
 
