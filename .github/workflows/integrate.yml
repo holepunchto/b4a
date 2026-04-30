@@ -1,4 +1,4 @@
-name: Test
+name: Integrate
 on:
   push:
     branches:
@@ -9,26 +9,24 @@ on:
 permissions:
   contents: read
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: holepunchto/actions/node-base@v1
+      - run: npm run lint
   test:
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
             platform: linux
-            arch: x64
           - os: macos-latest
             platform: darwin
-            arch: arm64
           - os: windows-latest
             platform: win32
-            arch: x64
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.platform }}-${{ matrix.arch }}
+    name: Test / ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - run: npm install -g bare-runtime
-      - run: npm install
+      - uses: holepunchto/actions/bare-base@v1
       - run: npm test
