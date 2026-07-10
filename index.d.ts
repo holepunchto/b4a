@@ -1,4 +1,4 @@
-import Buffer, { type BufferEncoding } from 'bare-buffer'
+import { Buffer, BufferEncoding } from './runtime'
 
 export function isBuffer(value: unknown): value is Buffer | Uint8Array
 
