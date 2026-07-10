@@ -5,6 +5,7 @@
   "exports": {
     "./package": "./package.json",
     ".": {
+      "types": "index.d.ts",
       "react-native": "./react-native.js",
       "browser": "./browser.js",
       "default": "./index.js"
@@ -13,6 +14,7 @@
   "files": [
     "browser.js",
     "index.js",
+    "index.d.ts",
     "react-native.js",
     "lib"
   ],
@@ -41,9 +43,13 @@
     "prettier-config-holepunch": "^2.0.0"
   },
   "peerDependencies": {
+    "bare-buffer": "^3.6.0",
     "react-native-b4a": "*"
   },
   "peerDependenciesMeta": {
+    "bare-buffer": {
+      "optional": true
+    },
     "react-native-b4a": {
       "optional": true
     }
