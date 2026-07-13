@@ -18,7 +18,7 @@ export function byteLength(
 
 export function compare(a: Uint8Array, b: Uint8Array): number
 
-export function concat(buffers: Uint8Array[], totalLength?: number): Uint8Array
+export function concat<T extends Uint8Array>(buffers: T[], totalLength?: number): T
 
 export function copy(
   source: Uint8Array,
@@ -30,27 +30,26 @@ export function copy(
 
 export function equals(a: Uint8Array, b: Uint8Array): boolean
 
-export function fill(buffer: Uint8Array, value: string, encoding?: BufferEncoding): Uint8Array
-export function fill(
-  buffer: Uint8Array,
+export function fill<T extends Uint8Array>(buffer: T, value: string, encoding?: BufferEncoding): T
+export function fill<T extends Uint8Array>(
+  buffer: T,
   value: string,
   offset?: number,
   encoding?: BufferEncoding
-): Uint8Array
-export function fill(
-  buffer: Uint8Array,
+): T
+export function fill<T extends Uint8Array>(
+  buffer: T,
   value: string,
   offset?: number,
   end?: number,
   encoding?: BufferEncoding
-): Uint8Array
-
-export function fill(
-  buffer: Uint8Array,
+): T
+export function fill<T extends Uint8Array>(
+  buffer: T,
   value: Uint8Array | number | boolean,
   offset?: number,
   end?: number
-): Uint8Array
+): T
 
 export function from(value: Iterable<number>): Uint8Array
 export function from(value: ArrayLike<number>): Uint8Array
@@ -96,9 +95,9 @@ export function lastIndexOf(
   offset?: number
 ): number
 
-export function swap16(buffer: Uint8Array): Uint8Array
-export function swap32(buffer: Uint8Array): Uint8Array
-export function swap64(buffer: Uint8Array): Uint8Array
+export function swap16<T extends Uint8Array>(buffer: T): T
+export function swap32<T extends Uint8Array>(buffer: T): T
+export function swap64<T extends Uint8Array>(buffer: T): T
 
 export function toBuffer(buffer: Uint8Array): Uint8Array
 
