@@ -18,7 +18,7 @@ export function byteLength(
 
 export function compare(a: Uint8Array, b: Uint8Array): number
 
-export function concat<T extends Uint8Array>(buffers: T[], totalLength?: number): T
+export function concat<T extends Uint8Array>(buffers: T[], totalLength?: number): Uint8Array
 
 export function copy(
   source: Uint8Array,
