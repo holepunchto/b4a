@@ -777,3 +777,14 @@ test('readInt32BE', (t) => {
     t.is(actual, expected)
   })
 })
+
+test('toHex', (t) => {
+  const buffer = new Uint8Array([0x00, 0x12, 0xab, 0xff])
+
+  t.is(b.toHex(buffer), '0012abff')
+  t.is(b.toHex(buffer, 1), '12abff')
+  t.is(b.toHex(buffer, 1, 3), '12ab')
+  t.is(b.toHex(buffer, 0, 0), '')
+  t.is(b.toHex(new Uint8Array(0)), '')
+  t.is(b.toHex(buffer), b.toString(buffer, 'hex'))
+})

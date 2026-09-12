@@ -79,6 +79,10 @@ function toString(buffer, encoding, start, end) {
   return toBuffer(buffer).toString(encoding, start, end)
 }
 
+function toHex(buffer, start, end) {
+  return toBuffer(buffer).toString('hex', start, end)
+}
+
 function write(buffer, string, offset, length, encoding) {
   return toBuffer(buffer).write(string, offset, length, encoding)
 }
@@ -168,6 +172,7 @@ module.exports = {
   swap64,
   toBuffer,
   toString,
+  toHex,
   write,
   readDoubleBE,
   readDoubleLE,
