@@ -108,6 +108,8 @@ export function toString(
   end?: number
 ): string
 
+export function toHex(buffer: Uint8Array, start?: number, end?: number): string
+
 export function write(buffer: Uint8Array, string: string, encoding?: BufferEncoding): number
 export function write(
   buffer: Uint8Array,

@@ -380,6 +380,10 @@ function toString(buffer, encoding = 'utf8', start = 0, end = buffer.byteLength)
   return codecFor(encoding).toString(buffer)
 }
 
+function toHex(buffer, start, end) {
+  return toString(buffer, 'hex', start, end)
+}
+
 function write(buffer, string, offset = 0, length = buffer.byteLength, encoding) {
   // write(buffer, string)
   if (arguments.length === 2) return utf8.write(buffer, string)
@@ -521,6 +525,7 @@ module.exports = exports = {
   swap64,
   toBuffer,
   toString,
+  toHex,
   write,
   readDoubleBE,
   readDoubleLE,
