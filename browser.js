@@ -181,9 +181,10 @@ function fill(buffer, value, offset = 0, end = buffer.byteLength, encoding = 'ut
   if (typeof value === 'string') value = exports.from(value, encoding)
 
   const len = value.byteLength
+  buffer.set(value.subarray(0, Math.min(len, end - offset)), offset)
 
-  for (let i = 0, n = end - offset; i < n; ++i) {
-    buffer[i + offset] = value[i % len]
+  for (let i = len, n = end - offset; i < n; ++i) {
+    buffer[i + offset] = buffer[offset + (i % len)]
   }
 
   return buffer

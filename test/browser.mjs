@@ -105,6 +105,61 @@ test('fill', (t) => {
   t.alike(b.fill(b.alloc(3), 'ab', 1, 2, 'hex'), b.from([0, 0xab, 0]))
 })
 
+test('fill with overlapping patterns', (t) => {
+  const cases = [
+    ['prefix pattern', 0, 10, 0, 2, 1, 9],
+    ['pattern after destination', 0, 10, 2, 5, 0, 9],
+    ['destination inside pattern', 0, 10, 0, 3, 2, 9],
+    ['same view', 0, 10, 0, 10, 1, 10],
+    ['nonzero view offsets', 2, 9, 0, 4, 1, 6],
+    ['partial pattern', 1, 9, 2, 8, 2, 5],
+    ['disjoint views', 0, 6, 7, 10, 0, 6],
+    ['adjacent views', 2, 9, 0, 2, 0, 7]
+  ]
+
+  for (const create of [Uint8Array.from.bind(Uint8Array), Buffer.from]) {
+    for (const [name, start, end, patternStart, patternEnd, offset, fillEnd] of cases) {
+      const initial = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      const backing = create(initial)
+      const buffer = backing.subarray(start, end)
+      const pattern = backing.subarray(patternStart, patternEnd)
+      const expected = initial.map((value, i) => {
+        if (i < start + offset || i >= start + fillEnd) return value
+        return initial[patternStart + ((i - start - offset) % (patternEnd - patternStart))]
+      })
+
+      t.is(b.fill(buffer, pattern, offset, fillEnd), buffer, `${name}: returns the destination`)
+      t.alike([...backing], expected, `${name}: repeats the original bytes`)
+    }
+  }
+})
+
+test('fill with a separate pattern and empty ranges', (t) => {
+  const pattern = b.from([3, 4])
+  const buffer = b.from([1, 2, 3, 4, 5, 6])
+  t.alike(b.fill(buffer, pattern, 1, 5), b.from([1, 3, 4, 3, 4, 6]))
+  t.alike(pattern, b.from([3, 4]))
+  t.is(b.fill(buffer, pattern, 3, 3), buffer)
+  t.alike(buffer, b.from([1, 3, 4, 3, 4, 6]))
+  t.alike(b.fill(buffer, b.alloc(0), 1, 5), b.from([1, 0, 0, 0, 0, 6]))
+  t.alike(b.fill(buffer, '', 1, 5), b.from([1, 0, 0, 0, 0, 6]))
+})
+
+test(
+  'fill with overlapping views of cloned shared storage',
+  { skip: typeof SharedArrayBuffer === 'undefined' || typeof structuredClone !== 'function' },
+  (t) => {
+    const backing = new SharedArrayBuffer(6)
+    const buffer = new Uint8Array(backing)
+    buffer.set([1, 2, 3, 4, 5, 6])
+    const pattern = new Uint8Array(structuredClone(backing), 0, 2)
+
+    t.not(pattern.buffer, buffer.buffer)
+    t.is(b.fill(buffer, pattern, 1), buffer)
+    t.alike([...buffer], [1, 1, 2, 1, 2, 1])
+  }
+)
+
 test('indexOf', (t) => {
   t.is(b.indexOf(b.from([1, 2, 3]), 1), 0)
   t.is(b.indexOf(b.from([1, 2, 3]), 2), 1)
